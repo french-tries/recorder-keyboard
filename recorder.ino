@@ -5,12 +5,10 @@
 #define MOD_BUTTON_ID 9
 
 // A3 is defined in esp32 arduino.h ...
-enum Note{N_F = 0, N_G, N_A, N_Bb, N_B, N_C, N_Cs, N_D, N_Eb, N_E, N_F2, N_F2s,
-  N_G2, N_G2s, N_A2, N_B2b, N_B2, N_C2, N_C2s, N_D2, N_D2s, N_E2, N_F3, N_G3, N_G3s, N_A3, N_B3, N_C3, NUM_NOTES};
+// enum Note{N_F = 0, N_G, N_A, N_Bb, N_B, N_C, N_Cs, N_D, N_Eb, N_E, N_F2, N_F2s,
+//   N_G2, N_G2s, N_A2, N_B2b, N_B2, N_C2, N_C2s, N_D2, N_D2s, N_E2, N_F3, N_G3, N_G3s, N_A3, N_B3, N_C3, NUM_NOTES};
 
-// constants won't change. They're used here to 
-// set pin numbers:
-const char buttonsPin[NUM_BUTTONS] = {34, 35, 32, 33, 25, 26, 14, 12, 13, 27};    // the number of the pushbutton pin
+const char buttonsPin[NUM_BUTTONS] = {34, 35, 32, 33, 25, 26, 14, 12, 13, 27};    // the number of the flute button pins
 
 const char fingerings[NUM_NOTES][NUM_NOTE_BUTTONS] = 
 {
@@ -42,11 +40,6 @@ const char fingerings[NUM_NOTES][NUM_NOTE_BUTTONS] =
    {0, 1, 0, 1, 1, 0, 1, 1, 0}, // N_A3
    {0, 1, 1, 1, 0, 1, 1, 0, 0}, // N_B3
    {0, 1, 1, 0, 0, 1, 0, 0, 0} // N_C3
-};
-
-struct NoteMap {
-   const char key;
-   const char modified;
 }; 
 
 const NoteMap keys[NUM_NOTES] =
@@ -81,14 +74,19 @@ const NoteMap keys[NUM_NOTES] =
   {' ', ' '} // N_C3
 };
 
+struct NoteMap {
+   const char key;
+   const char modified;
+};
+
 // Variables will change:
 char reading[NUM_BUTTONS]; 
-char buttonState[NUM_BUTTONS];             // the current reading from the input pin
-char lastButtonState[NUM_BUTTONS] = {LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW};   // the previous reading from the input pin
+char buttonState[NUM_BUTTONS];             // the current reading from the input pins
+char lastButtonState[NUM_BUTTONS] = {LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW,LOW};   // the previous reading from the input pins
 
 // the following variables are long's because the time, measured in miliseconds,
 // will quickly become a bigger number than can be stored in an int.
-long lastDebounceTime = 0;  // the last time the output pin was toggled
+long lastDebounceTime = 0;  // the last time one of the outputs pin was toggled
 long debounceDelay = 150;    // the debounce time; increase if the output flickers
 
 BleKeyboard bleKeyboard;
